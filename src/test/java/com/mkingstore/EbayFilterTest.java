@@ -27,4 +27,9 @@ public class EbayFilterTest {
 		assertEquals(233, EbayFilter.extractNumberSold("//£2.99//eBay Premium Service//Free postage//233 sold"));
 	}
 
+	@Test
+	public void extractCategoryName() {
+		assertEquals("Private-UK-Ireland-Property",
+				EbayFilter.extractCategoryName("https://www.ebay.co.uk/b/Private-UK-Ireland-Property/93847/bn_2317917"));
+	}
 }

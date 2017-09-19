@@ -19,7 +19,14 @@ public final class Item {
 
 	@Override
 	public String toString() {
-		return "Item [name=" + name + ", details=" + details + "]";
+		return "Item [name=" + name + ", \r\n details=" + details + "]";
+	}
+
+	public String toHtml() {
+		String htmlTemplate = HtmlTemplate.item();
+		htmlTemplate = htmlTemplate.replaceAll("--item_url--", name);
+		htmlTemplate = htmlTemplate.replaceAll("--item_details--", details);
+		return htmlTemplate;
 	}
 
 }

@@ -36,7 +36,8 @@ public class EbayScannerImpl implements EbayScanner {
 
 	@Override
 	public List<Item> findItems(String urlCategory) {
-		System.out.println("New Category");
+		String categoryName = EbayFilter.extractCategoryName(urlCategory);
+		System.out.println("New Category : " + categoryName);
 		List<Item> items = new ArrayList<>();
 		Document doc;
 		Elements itemsHtmlRaw = null;
@@ -75,7 +76,18 @@ public class EbayScannerImpl implements EbayScanner {
 			}
 
 		}
-		System.out.println("End category: " + urlCategory);
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				if (items.size() > 0) {
+					new IOUtilImpl().saveHTML(categoryName, items);
+				}
+
+			}
+		}).run();
+		System.out.println("End category: ");
 		return items;
 	}
 }

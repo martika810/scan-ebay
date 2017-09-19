@@ -10,10 +10,10 @@ public class EbayFilter {
 			return false;
 
 		float price = extractPrice(productDetails);
-		boolean isGoodPrice = Float.valueOf(10.0f) < price && Float.valueOf(40.0f) > price;
+		boolean isGoodPrice = Float.valueOf(9.99f) < price && Float.valueOf(20.0f) > price;
 
 		int soldItems = extractNumberSold(productDetails);
-		boolean enoughSellMarket = 100 < soldItems;
+		boolean enoughSellMarket = 70 < soldItems;
 		return isSellableAndFreePostage && isGoodPrice && enoughSellMarket;
 	}
 	public static Float extractPrice(final String productDetails) {
@@ -36,4 +36,8 @@ public class EbayFilter {
 
 	}
 
+	public static String extractCategoryName(final String urlCategory) {
+		String categoryName = urlCategory.split("/")[4];
+		return categoryName;
+	}
 }
