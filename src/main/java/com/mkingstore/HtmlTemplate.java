@@ -11,6 +11,6 @@ public class HtmlTemplate {
 	}
 
 	public static String item() {
-		return "<br/><a href=--item_url-->--item_url--</a> <br/>" + "<p>--item_details--</p><br/>";
+		return "<br/>" + "<a href=--item_url--><img src=\"--item_image--\" /></a> <br/>" + "<p>--item_details--</p>" + "<br/>";
 	}
 }

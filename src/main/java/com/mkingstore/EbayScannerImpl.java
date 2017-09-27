@@ -34,6 +34,21 @@ public class EbayScannerImpl implements EbayScanner {
 
 	}
 
+	public static Item extractItemInfo(final Element itemInRawHtml) {
+		String image = itemInRawHtml.select("img.s-item__image-img").attr("src");
+		String link = itemInRawHtml.select("a.s-item__link").attr("href");
+		String price = itemInRawHtml.select("span.s-item__price").text();
+		String freeShipping = (itemInRawHtml.select("span.s-item__shipping") != null) ? itemInRawHtml.select("span.s-item__shipping").text() : "";
+		String soldItems = (itemInRawHtml.select("span.s-item__hotness").select(".NEGATIVE") != null) ? itemInRawHtml.select("span.s-item__hotness")
+				.select(".NEGATIVE").text() : "";
+
+		String details = price + "//" + freeShipping + "//" + soldItems;
+		// String itemLink = itemInRawHtml.child(1).child(0).attr("href");
+		// String details=null;
+		return new Item(link, details, image);
+
+	}
+
 	@Override
 	public List<Item> findItems(String urlCategory) {
 		String categoryName = EbayFilter.extractCategoryName(urlCategory);
@@ -60,7 +75,7 @@ public class EbayScannerImpl implements EbayScanner {
 							detailText += (SpecialCharacters.SPLIT_DETAILS + detail.text());
 						}
 						if (EbayFilter.isGoodProduct(detailText)) {
-							items.add(new Item(itemLink, detailText));
+							items.add(new Item(itemLink, detailText, null));
 							System.out.println("");
 							System.out.println(itemLink);
 							System.out.println(detailText);
