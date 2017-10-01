@@ -26,7 +26,7 @@ public class IOUtilImpl implements IOUtils {
 
 	@Override
 	public void saveHTML(String fileName, List<Item> items) {
-		File file = new File("./results/" + fileName + ".html");
+		File file = new File("./results/" + items.size() + "_" + fileName + ".html");
 		String fullString = "";
 		for (Item item : items) {
 			fullString += item.toHtml();
@@ -36,7 +36,7 @@ public class IOUtilImpl implements IOUtils {
 			fullHTML = fullHTML.replaceAll("--CATEGORY_NAME--", fileName);
 			fullHTML = fullHTML.replaceAll("--BODY--", fullString);
 
-			FileUtils.writeStringToFile(file, fullString);
+			FileUtils.writeStringToFile(file, fullHTML);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
