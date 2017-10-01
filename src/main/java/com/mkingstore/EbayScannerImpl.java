@@ -9,6 +9,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.mkingstore.domain.Category;
+import com.mkingstore.domain.Item;
+import com.mkingstore.scanners.ProductScannerImpl;
+import com.mkingstore.utils.IOUtilImpl;
+
 public class EbayScannerImpl implements EbayScanner {
 
 	@Override
@@ -34,23 +39,6 @@ public class EbayScannerImpl implements EbayScanner {
 
 	}
 
-	public static Item extractItemInfo(final Element itemInRawHtml) {
-		String image = itemInRawHtml.select("img.s-item__image-img").attr("data-src");
-		if ("".equals(image)) {
-			image = itemInRawHtml.select("img.s-item__image-img").attr("src");
-		}
-		String name = itemInRawHtml.select("h3.s-item__title").text();
-		String link = itemInRawHtml.select("a.s-item__link").attr("href");
-		String price = itemInRawHtml.select("span.s-item__price").text();
-		String freeShipping = (itemInRawHtml.select("span.s-item__shipping") != null) ? itemInRawHtml.select("span.s-item__shipping").text() : "";
-		String soldItems = (itemInRawHtml.select("span.s-item__hotness").select(".NEGATIVE") != null) ? itemInRawHtml.select("span.s-item__hotness")
-				.select(".NEGATIVE").text() : "";
-
-		return new Item.Builder().withName(name).withLink(link).withImage(image).withPostage(freeShipping).withPrice(price).withSoldItems(soldItems)
-				.build();
-
-	}
-
 	@Override
 	public List<Item> findItems(String urlCategory) {
 		String categoryName = EbayFilter.extractCategoryName(urlCategory);
@@ -63,27 +51,17 @@ public class EbayScannerImpl implements EbayScanner {
 				doc = Jsoup.connect(urlCategory + Pagination.pageSuffix(pageIndex)).get();
 				itemsHtmlRaw = doc.select("#mainContent ul .s-item__wrapper");
 
-				for (Element item : itemsHtmlRaw) {
-					try {
-						Item extractedItem = extractItemInfo(item);
-
-						if (EbayFilter.isGoodProduct(extractedItem)) {
-							items.add(extractedItem);
-							System.out.println("");
-							System.out.println(extractedItem.getName());
-							System.out.println(extractedItem.getDetails());
-						}
-
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-				}
+				List<Item> itemsInPage = new ProductScannerImpl().extractProductInfo(itemsHtmlRaw);
+				items.addAll(itemsInPage);
 
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
 		}
+
+		Category newCategory = new Category.Builder(categoryName).withNumberSellable(items.size()).withMarketShare(0).withProducts(items).build();
+		CategoryStoreImpl.getInstance().add(newCategory);
 
 		new Thread(new Runnable() {
 

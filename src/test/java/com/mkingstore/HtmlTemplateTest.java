@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import com.mkingstore.utils.HtmlTemplate;
+
 public class HtmlTemplateTest {
 
 	@Test

@@ -1,5 +1,7 @@
 package com.mkingstore;
 
+import com.mkingstore.domain.Item;
+
 public class EbayFilter {
 
 	public static boolean isGoodProduct(final String productDetails) {
