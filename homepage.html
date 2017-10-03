@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/mvc">
+<head>
+    <title>Ebay Scanner</title>
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
+    <!-- Javascript -->
+    <script tytpe="text/javascript" th:src="@{/js/lib/jquery.js}" />
+    <script type="text/javascript" th:src="@{/js/lib/angular.js}" />
+    <script type="text/javascript" th:src="@{/js/lib/bootstrap.js}" />
+
+     <script type="text/javascript" th:src="@{/js/src/ebay-controller.js}" />
+     
+</head>
+<body>
+    <div id="ebayPanel" class="container" ng-app="ebayApp"ng-controller="ebayController">
+        <div>
+        <ul ng-repeat="catergory in categoryList" class="collapsible" data-collapsible="accordion">
+            <li class="collection-item">
+                <div class="collapsible-header" value="{{category.name}}">
+                    {{category.name }}
+                </div>
+            </li>
+        </ul>
+    </div>
+    </div>
+
+</body>
+</html>

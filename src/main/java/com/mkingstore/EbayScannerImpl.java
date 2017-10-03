@@ -12,7 +12,6 @@ import org.jsoup.select.Elements;
 import com.mkingstore.domain.Category;
 import com.mkingstore.domain.Item;
 import com.mkingstore.scanners.ProductScannerImpl;
-import com.mkingstore.utils.IOUtilImpl;
 
 public class EbayScannerImpl implements EbayScanner {
 
@@ -60,19 +59,23 @@ public class EbayScannerImpl implements EbayScanner {
 
 		}
 
-		Category newCategory = new Category.Builder(categoryName).withNumberSellable(items.size()).withMarketShare(0).withProducts(items).build();
-		CategoryStoreImpl.getInstance().add(newCategory);
+		if (items.size() > 0) {
+			float marketShare = new ProductScannerImpl().calculateMarketShare(items);
+			Category newCategory = new Category.Builder(categoryName).withNumberSellable(items.size()).withMarketShare(marketShare)
+					.withProducts(items).build();
+			CategoryStoreImpl.getInstance().add(newCategory);
+		}
+		// new Thread(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// if (items.size() > 0) {
+		// new IOUtilImpl().saveHTML(categoryName, items);
+		// }
+		//
+		// }
+		// }).run();
 
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				if (items.size() > 0) {
-					new IOUtilImpl().saveHTML(categoryName, items);
-				}
-
-			}
-		}).run();
 		System.out.println("End category ");
 		return items;
 	}

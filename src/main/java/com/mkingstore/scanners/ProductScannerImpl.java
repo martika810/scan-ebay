@@ -32,6 +32,16 @@ public class ProductScannerImpl implements ProductScanner {
 		return items;
 	}
 
+	public float calculateMarketShare(List<Item> products) {
+		float total = 0f;
+		for (Item product : products) {
+			Float price = EbayFilter.extractPrice(product.getDetails());
+			int soldItems = EbayFilter.extractNumberSold(product.getDetails());
+			total += (price * soldItems);
+		}
+		return total;
+	}
+
 	public static Item extractItemInfo(final Element itemInRawHtml) {
 		String image = itemInRawHtml.select("img.s-item__image-img").attr("data-src");
 		if ("".equals(image)) {

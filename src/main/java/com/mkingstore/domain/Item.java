@@ -1,5 +1,6 @@
 package com.mkingstore.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mkingstore.utils.HtmlTemplate;
 
 public final class Item {
@@ -60,23 +61,32 @@ public final class Item {
 		}
 	}
 
+	@JsonProperty
 	public String getName() {
 		return name;
 	}
+
+	@JsonProperty
 	public String getLink() {
 		return link;
 	}
+
+	@JsonProperty
 	public String getPrice() {
 		return price;
 	}
+
+	@JsonProperty
 	public String getImage() {
 		return image;
 	}
 
+	@JsonProperty
 	public String getPostage() {
 		return postage;
 	}
 
+	@JsonProperty
 	public String getSoldItems() {
 		return soldItems;
 	}

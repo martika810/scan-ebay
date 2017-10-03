@@ -9,5 +9,5 @@ import com.mkingstore.domain.Item;
 public interface ProductScanner {
 
 	public List<Item> extractProductInfo(Elements productInHtml);
-
+	public float calculateMarketShare(List<Item> products);
 }

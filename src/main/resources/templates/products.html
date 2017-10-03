@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/mvc">
+<head>
+    <title>Ebay Scanner</title>
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
+    <!-- Javascript -->
+    <script tytpe="text/javascript" th:src="@{/js/lib/jquery.js}" />
+    <script tytpe="text/javascript" th:src="@{/js/lib/jquery.cookie.js}" />
+    <script type="text/javascript" th:src="@{/js/lib/angular.js}" />
+    <script type="text/javascript" th:src="@{/js/lib/angular-cookies.js}" />
+    <script type="text/javascript" th:src="@{/js/src/product-controller.js}" />
+     
+</head>
+<body>
+    <div id="productPanel" class="container" ng-app="productApp" ng-controller="productController">
+        <div>
+            <div class="collapsible-header" value="{{category.name}}">
+                <div ng-repeat="product in productList" class="col-sm-3">
+                    <a href="{{product.link}}">
+                        <img src="{{product.image}}" />
+                    </a><br/>
+                    <p>{{product.name}}</p>
+                    <p>{{product.price}}</p><br/>
+                </div>
+            </div>
+         </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/mvc">
+<head>
+    <title>Ebay Scanner</title>
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
+    <!-- Javascript -->
+    <script tytpe="text/javascript" th:src="@{/js/lib/jquery.js}" />
+    <script tytpe="text/javascript" th:src="@{/js/lib/jquery.cookie.js}" />
+    <script type="text/javascript" th:src="@{/js/lib/angular.js}" />
+    <script type="text/javascript" th:src="@{/js/lib/angular-cookies.js}" />
+   
+
+     <script type="text/javascript" th:src="@{/js/src/ebay-controller.js}" />
+     
+</head>
+<body>
+    <div id="ebayPanel" class="container" ng-app="ebayApp" ng-controller="ebayController">
+        <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Category</th>
+                    <th>Sold Items</th>
+                    <th>Market Share</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="category in categoryList">
+                    
+                    <th scope="row">{{ $index + 1 }}</th>
+                    <td><a href="/find_products" ng-click="selectCategory(category)">{{category.name}}</a></td>
+                    <td>{{ category.numberSellableItems }}</td>
+                    <td>{{category.marketShare }}</td>
+                </tr>
+            </tbody> 
+        </table>
+        </div>
+    </div>
+
+</body>
+</html>

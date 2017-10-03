@@ -68,9 +68,4 @@ public class Category {
 		this.products = builder.products;
 	}
 
-	// @Override
-	// public int compareTo(Category o) {
-	//
-	// return this.numberSellableItems - o.numberSellableItems;
-	// }
 }
