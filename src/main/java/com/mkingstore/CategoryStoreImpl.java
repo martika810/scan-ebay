@@ -14,12 +14,14 @@ public class CategoryStoreImpl implements CategoryStore {
 
 	private Map<String, Category> categoryMap;
 	private List<Category> sortedCategories;
+	private List<Category> sortedCategoriesByMarketShare;
 
 	private static CategoryStoreImpl INSTANCE;
 
 	private CategoryStoreImpl() {
 		this.categoryMap = new HashMap<>();
 		this.sortedCategories = new ArrayList<>();
+		this.sortedCategoriesByMarketShare = new ArrayList<>();
 
 	}
 
@@ -29,6 +31,16 @@ public class CategoryStoreImpl implements CategoryStore {
 		public int compare(Category o1, Category o2) {
 			// TODO Auto-generated method stub
 			return o2.getNumberSellableItems() - o1.getNumberSellableItems();
+		}
+
+	};
+
+	private Comparator<Category> categoryComparatorByMarketShare = new Comparator<Category>() {
+
+		@Override
+		public int compare(Category o1, Category o2) {
+			// TODO Auto-generated method stub
+			return (int) (o2.getMarketShare() - o1.getMarketShare());
 		}
 
 	};
@@ -47,7 +59,9 @@ public class CategoryStoreImpl implements CategoryStore {
 		Category categoryWithoutProducts = new Category.Builder(category.getName()).withNumberSellable(category.getNumberSellableItems())
 				.withMarketShare(category.getMarketShare()).build();
 		sortedCategories.add(categoryWithoutProducts);
-		Collections.sort(sortedCategories, categoryComparator);
+		Collections.sort(sortedCategories, categoryComparatorByMarketShare);
+		// Collections.sort(sortedCategoriesByMarketShare,
+		// categoryComparatorByMarketShare);
 	}
 
 	@Override
