@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tomcat.jni.OS;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,6 +14,8 @@ import com.mkingstore.domain.Category;
 import com.mkingstore.domain.Item;
 import com.mkingstore.scanners.ProductScannerImpl;
 
+import static com.sun.org.apache.xml.internal.serialize.LineSeparator.Macintosh;
+
 public class EbayScannerImpl implements EbayScanner {
 
 	@Override
@@ -20,7 +23,10 @@ public class EbayScannerImpl implements EbayScanner {
 		Document doc;
 		List<String> categoryLink = new ArrayList<>();
 		try {
-			doc = Jsoup.connect("https://www.ebay.co.uk/sch/allcategories/all-categories").timeout(30000).userAgent("Mozilla/17.0").get();
+			doc = Jsoup.connect("https://www.ebay.co.uk/sch/allcategories/all-categories")
+					.timeout(30000)
+					.userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:49.0) Gecko/20100101 Firefox/49.0")
+					.ignoreHttpErrors(true).followRedirects(true).ignoreContentType(true).get();
 			Elements categories = doc.select("#mainContent div .right-section .categories-with-links");
 			for (Element category : categories) {
 				String href = category.attr("href");
