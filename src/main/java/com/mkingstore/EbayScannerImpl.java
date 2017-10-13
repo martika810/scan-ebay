@@ -20,7 +20,7 @@ public class EbayScannerImpl implements EbayScanner {
 		Document doc;
 		List<String> categoryLink = new ArrayList<>();
 		try {
-			doc = Jsoup.connect("https://www.ebay.co.uk/sch/allcategories/all-categories").get();
+			doc = Jsoup.connect("https://www.ebay.co.uk/sch/allcategories/all-categories").timeout(30000).userAgent("Mozilla/17.0").get();
 			Elements categories = doc.select("#mainContent div .right-section .categories-with-links");
 			for (Element category : categories) {
 				String href = category.attr("href");
