@@ -1,0 +1,3 @@
+<system-properties>
+    <property name="appengine.api.urlfetch.defaultDeadline" value="5000"/>
+</system-properties>
