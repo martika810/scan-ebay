@@ -53,13 +53,14 @@ public class EbayScannerImpl implements EbayScanner {
 		Elements itemsHtmlRaw = null;
 		for (int pageIndex = 1; pageIndex < 4; pageIndex++) {
 			try {
+				Thread.sleep(300);
 				doc = Jsoup.connect(urlCategory + Pagination.pageSuffix(pageIndex)).get();
 				itemsHtmlRaw = doc.select("#mainContent ul .s-item__wrapper");
 
 				List<Item> itemsInPage = new ProductScannerImpl().extractProductInfo(itemsHtmlRaw);
 				items.addAll(itemsInPage);
 
-			} catch (IOException e) {
+			} catch (InterruptedException |IOException e) {
 				e.printStackTrace();
 			}
 
